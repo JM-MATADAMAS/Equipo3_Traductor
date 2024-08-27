@@ -6,27 +6,41 @@
     <title>Traductor de Voz a 5 Idiomas</title>
     <link rel="stylesheet" href="./CSS/styles.css">
 </head>
+
 <body>
-    <h1>Traductor de Voz a 5 Idiomas</h1>
-    <p>Haz clic en "Iniciar" y habla. Tu voz será traducida al idioma seleccionado.</p>
-    <button id="startButton">Iniciar</button>
-    <button id="stopButton" disabled>Detener</button>
-    <button id="retryButton" style="display: none;">Reintentar</button>
-    <div id="status">Listo para grabar</div>
-    <div id="countdown"></div>
-    <div id="output"></div>
-    <div id="translationControls">
-        <select id="languageSelect">
-            <option value="en">Inglés</option>
-            <option value="fr">Francés</option>
-            <option value="de">Alemán</option>
-            <option value="it">Italiano</option>
-            <option value="pt">Portugués</option>
-        </select>
-        <textarea id="translationOutput" readonly></textarea>
-        <button id="speakButton">Escuchar traducción</button>
+    <div class="containerleft">
+        <h1>Traductor de Voz a 5 Idiomas</h1>
+        <h2>Bienvenido a tu Asistente de voz</h2>
+        <p>Para iniciar haga clic en "Iniciar" y habla. Tu voz será traducida al idioma seleccionado.</p>
     </div>
 
+    
+    <div class="containerRight">
+        <div class="MainBotton">
+            <button id="startButton">Iniciar</button>
+            <button id="stopButton" disabled>Detener</button>
+        </div>
+        
+        <button id="retryButton" style="display: none;">Reintentar</button>
+        <div id="status">Listo para grabar</div>
+        <div id="countdown"></div>
+        <div id="output"></div>
+        
+        <div id="translationControls">
+            <select id="languageSelect">
+                <option value="en">Inglés</option>
+                <option value="fr">Francés</option>
+                <option value="de">Alemán</option>
+                <option value="it">Italiano</option>
+                <option value="pt">Portugués</option>
+            </select>
+            <textarea id="translationOutput" readonly></textarea>
+            <button id="speakButton">Escuchar traducción</button>
+        </div>
+    </div>
+
+
     <script src="./JavaScript/script.js"></script>
+
 </body>
 </html>
