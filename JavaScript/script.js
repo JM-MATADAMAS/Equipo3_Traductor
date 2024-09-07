@@ -216,3 +216,27 @@ function speakTranslation() {
         alert('Lo siento, tu navegador no soporta la síntesis de voz.');  // Muestra una alerta si la síntesis de voz no es compatible.
     }
 }
+
+document.getElementById("languageSelect").addEventListener("change", function() {
+    const selectedLanguage = this.value;
+    const flagIcon = document.getElementById("flag-icon");
+    
+    // Mapa de idiomas a nombres de archivos de imágenes de banderas
+    const flagMap = {
+        en: "img/EUA.jpeg",
+        fr: "img/Francia.jpeg",
+        al: "img/Alemania.jpeg",
+        it: "img/Italia.jpeg",
+        pt: "img/Brasil.jpeg"
+    };
+
+    // Obtener la ruta de la imagen de la bandera seleccionada
+    const flagSrc = flagMap[selectedLanguage];
+    
+    if (flagSrc) {
+        flagIcon.src = flagSrc;
+        flagIcon.style.display = "block";
+    } else {
+        flagIcon.style.display = "none";
+    }
+});

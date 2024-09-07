@@ -16,6 +16,7 @@
 
     
     <div class="containerRight">
+
         <div class="MainBotton">
             <button id="startButton">Iniciar</button>
             <button id="stopButton" disabled>Detener</button>
@@ -27,14 +28,20 @@
         <div id="output"></div>
         
         <div id="translationControls">
+            
+            <div id="flag-container" style="display: flex; align-items: center;">
+                <span id="language-text">Hola, usted está en el idioma:</span>
+                <img id="flag-icon" src="" alt="Flag Icon" style="display: none; margin-left: 8px;">
+            </div>
+
             <select id="languageSelect">
                 <option value="en">Inglés</option>
                 <option value="fr">Francés</option>
-                <option value="de">Alemán</option>
+                <option value="al">Alemán</option>
                 <option value="it">Italiano</option>
                 <option value="pt">Portugués</option>
             </select>
-            <textarea id="translationOutput" readonly></textarea>
+            <textarea id="translationOutput" readonly style="width: 350px; height: 150px;"></textarea>
             <button id="speakButton">Escuchar traducción</button>
         </div>
     </div>
