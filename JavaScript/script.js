@@ -26,7 +26,7 @@ if ('webkitSpeechRecognition' in window) {
 
     // Evento que se dispara al iniciar el reconocimiento de voz.
     recognition.onstart = function() {
-        console.log('Reconocimiento de voz iniciado');
+//        console.log('Reconocimiento de voz iniciado');
         isRecognitionActive = true;  // Actualiza el estado indicando que el reconocimiento está activo.
         updateStatus(true);  // Actualiza la interfaz para reflejar que la grabación está en progreso.
     };
@@ -34,7 +34,6 @@ if ('webkitSpeechRecognition' in window) {
     // Evento que se dispara al recibir un resultado de voz.
     recognition.onresult = function(event) {
         const transcript = event.results[event.results.length - 1][0].transcript;  // Captura la transcripción más reciente.
-        console.log('Transcripción:', transcript);
         originalText = transcript;  // Almacena el texto transcrito.
         translateText();  // Inicia el proceso de traducción.
         retryCount = 0;  // Reinicia el conteo de reintentos.
@@ -52,7 +51,7 @@ if ('webkitSpeechRecognition' in window) {
 
     // Evento que se dispara cuando el reconocimiento de voz se detiene.
     recognition.onend = function() {
-        console.log('Reconocimiento de voz finalizado');
+//        console.log('Reconocimiento de voz finalizado');
         isRecognitionActive = false;  // Indica que el reconocimiento ha terminado.
         if (isListening && retryCount < MAX_RETRY) {
             setTimeout(restartRecognition, 1000);  // Intenta reiniciar si se permite y no ha alcanzado el máximo de reintentos.
@@ -118,7 +117,7 @@ function startRecognition() {
     if (!isRecognitionActive) {
         try {
             recognition.start();  // Inicia el reconocimiento de voz.
-            console.log('Iniciando reconocimiento de voz');
+//            console.log('Iniciando reconocimiento de voz');
             retryButton.style.display = 'none';  // Oculta el botón de "reintentar" mientras se graba.
         } catch (error) {
             console.error('Error al iniciar el reconocimiento:', error);
@@ -132,7 +131,7 @@ function stopRecognition() {
     isListening = false;  // Marca que la grabación se ha detenido.
     if (isRecognitionActive) {
         recognition.stop();  // Detiene el reconocimiento de voz.
-        console.log('Deteniendo reconocimiento de voz');
+//        console.log('Deteniendo reconocimiento de voz');
     }
 }
 
@@ -147,10 +146,10 @@ function restartRecognition() {
 function handleNetworkError() {
     retryCount++;  // Incrementa el conteo de reintentos.
     const delay = Math.min(1000 * Math.pow(2, retryCount), 30000);  // Calcula el tiempo de espera exponencial (máx. 30 segundos).
-    console.log(`Error de red detectado. Reintento ${retryCount} en ${delay/1000} segundos...`);
+//    console.log(`Error de red detectado. Reintento ${retryCount} en ${delay/1000} segundos...`);
     updateStatus(false, `Error de red. Reintentando en ${delay/1000} segundos...`);
     if (retryCount >= MAX_RETRY) {
-        console.log('Número máximo de reintentos alcanzado.');
+//        console.log('Número máximo de reintentos alcanzado.');
         retryButton.style.display = 'inline-block';  // Muestra el botón de "reintentar" si se alcanzó el máximo.
     } else {
         setTimeout(restartRecognition, delay);  // Vuelve a intentar después del tiempo de espera calculado.
@@ -209,10 +208,45 @@ function speakTranslation() {
     const text = translationOutput.value;  // Obtiene el texto a hablar.
     const lang = languageSelect.value;  // Obtiene el idioma seleccionado.
     if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);  // Crea una instancia para la síntesis de voz.
-        utterance.lang = lang;  // Configura el idioma para la síntesis.
-        speechSynthesis.speak(utterance);  // Inicia la reproducción de la voz sintetizada.
+        const voices = speechSynthesis.getVoices();
+        const voice = voices.find(voice => voice.lang.startsWith(lang));
+        
+        if (voice) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;  // Configura el idioma para la síntesis.
+            utterance.voice = voice;  // Establece la voz encontrada.
+            utterance.rate = 0.55;  // Establece la velocidad a 0.85 (un poco más lento que la velocidad normal).
+            if (utterance.lang == 'it') {
+                utterance.rate = 0.4;
+            }
+            speechSynthesis.speak(utterance);  // Inicia la reproducción de la voz sintetizada.
+        } else {
+            alert('Lo siento, no se encontró una voz compatible para el idioma seleccionado.');
+        }
     } else {
-        alert('Lo siento, tu navegador no soporta la síntesis de voz.');  // Muestra una alerta si la síntesis de voz no es compatible.
+        alert('Lo siento, tu navegador no soporta la síntesis de voz.');
     }
 }
+
+document.getElementById("languageSelect").addEventListener("change", function() {
+    const selectedLanguage = this.value;
+    const flagIcon = document.getElementById("flag-icon");
+    
+    // Mapa de idiomas a nombres de archivos de imágenes de banderas
+    const flagMap = {
+        en: "img/EUA.jpeg",
+        fr: "img/Francia.jpeg",
+        de: "img/Alemania.jpeg",
+        it: "img/Italia.jpeg",
+        pt: "img/Brasil.jpeg"
+    };
+
+    // Obtener la ruta de la imagen de la bandera seleccionada
+    const flagSrc = flagMap[selectedLanguage];
+    
+    if (flagSrc) {
+        flagIcon.src = flagSrc;
+    } else {
+        flagIcon.style.display = "none";
+    }
+});

@@ -23,6 +23,7 @@ p{
     font-weight: 300;
 }
 
+
 .containerleft{
     color: white;
     background-color: black;
@@ -119,4 +120,17 @@ button, select {
     padding: 10px;
     font-size: 16px;
     box-sizing: border-box;
+}
+
+#flag-container {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    padding-bottom: 3%;
+}
+
+#flag-icon {
+    width: 32px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 32px; /* Ajusta el tamaño de la imagen según sea necesario */
+    border-radius: 50%;
 }
