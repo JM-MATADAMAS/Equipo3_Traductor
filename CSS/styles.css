@@ -123,9 +123,10 @@ button, select {
 }
 
 #flag-container {
-    position: fixed;
-    top: 10px;
-    right: 10px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    padding-bottom: 3%;
 }
 
 #flag-icon {
